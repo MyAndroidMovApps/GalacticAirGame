@@ -24,18 +24,22 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bluePlaneBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.blue_plane);
         ImageCache.put("bluePlaneBitmap", bluePlaneBitmap);
-
         Bitmap redPlaneBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.red_plane);
         ImageCache.put("redPlaneBitmap", redPlaneBitmap);
 
         Bitmap redBulletBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.red_bullet);
         ImageCache.put("redBulletBitmap", redBulletBitmap);
-
         Bitmap blueBulletBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.blue_bullet);
         ImageCache.put("blueBulletBitmap", blueBulletBitmap);
-
         Bitmap missileBulletBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.missile_bullet);
         ImageCache.put("missileBulletBitmap", missileBulletBitmap);
+
+        Bitmap enemyPlane1Bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.enemy_plane);
+        ImageCache.put("enemyPlane1Bitmap", enemyPlane1Bitmap);
+        Bitmap enemyPlane2Bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.enemy_plane2);
+        ImageCache.put("enemyPlane2Bitmap", enemyPlane2Bitmap);
+        Bitmap enemyBossBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.boss);
+        ImageCache.put("enemyBossBitmap", enemyBossBitmap);
 
         //this.setContentView(new GameView(MainActivity.this, "1"));
 

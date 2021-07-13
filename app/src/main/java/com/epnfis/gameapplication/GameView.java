@@ -22,6 +22,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private int downX, downY;//coordinates of the mouse down
     private int moveX, moveY;//coordinates of the mouse move
     private String planeType;
+    private EnemyPlaneChain enemyPlaneChain;
 
     public GameView(MainActivity gameActivity, String planeType) {
         super(gameActivity);
@@ -43,6 +44,13 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         plane = PlaneFactory.create(this.planeType, 0, 0);
         plane.setX(this.canvasWidth / 2 - plane.getWidth() / 2);
         plane.setY(this.canvasHeight - plane.getHeight() - 40);
+
+        enemyPlaneChain = new EnemyPlaneChain();
+        enemyPlaneChain.add(new Enemy1Handler(this.canvasWidth));
+        enemyPlaneChain.add(new Enemy2Handler(this.canvasWidth));
+        enemyPlaneChain.add(new
+                EnemyBossHandler(this.canvasWidth));
+
         new Thread(this).start(); // start game loop thread
 
     }
@@ -83,6 +91,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         plane.createBullets("1");
         plane.drawBullets(canvas);
         plane.moveBullet(0, -8);
+        enemyPlaneChain.moveEnemyPlanes(canvas);
     }
     // game loop to repeat draw
     @Override

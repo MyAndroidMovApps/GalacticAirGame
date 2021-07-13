@@ -69,11 +69,4 @@ public abstract class Sprite {
     public int getHeight(){
         return this.height;
     }
-
-//    public Bitmap getBitmap() {
-//        return bitmap;
-//    }
-//    public void setBitmap(Bitmap bitmap) {
-//        this.bitmap = bitmap;
-//    }
 }
