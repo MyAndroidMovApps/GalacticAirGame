@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bluePlaneLifeBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.blue_plane_small);
         ImageCache.put("bluePlaneLifeBitmap", bluePlaneLifeBitmap);
+
+        Bitmap bomBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.bom);
+        ImageCache.put("bomBitmap", bomBitmap);
+
         //this.setContentView(new GameView(MainActivity.this, "1"));
 
         //AlertDialog

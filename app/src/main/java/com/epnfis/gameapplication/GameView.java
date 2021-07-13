@@ -28,6 +28,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private EnemyPlaneChain enemyPlaneChain;
     private PlaneLife planeLife;
     private PlaneScore planeScore;
+    private Mediator mediator;
 
     public GameView(MainActivity gameActivity, String planeType) {
         super(gameActivity);
@@ -59,6 +60,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         plane.registerObserver(planeLife);
         planeScore=new PlaneScore(0,0,canvasWidth,canvasHeight );
         plane.registerObserver(planeScore);
+        mediator = new MediatorImpl(this.gameActivity);
 
         new Thread(this).start(); // start game loop thread
 
@@ -97,15 +99,15 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     public void drawGame(Canvas canvas) {
         canvas.drawColor(Color.WHITE); //set white background
         plane.draw(canvas); //draw plane on canvas
-        plane.createBullets("1");
+        plane.createBullets("2");
         plane.drawBullets(canvas);
         plane.moveBullet(0, -8);
         planeLife.draw(canvas);
         planeScore.draw(canvas, paint);
         enemyPlaneChain.moveEnemyPlanes(canvas);
-        collideCheck();
+        collideCheck(canvas);
     }
-    private void collideCheck() {
+    private void collideCheck(Canvas canvas) {
         List<Sprite> enemyPlaneList = enemyPlaneChain.getEnemyPlaneList();
         CopyOnWriteArrayList<Bullet> bulletList = plane.getBulletList();
         for (int i = 0; i < enemyPlaneList.size(); i++) {
@@ -115,6 +117,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
                 if (bullet.collideWith(enemyPlane)) {
                     enemyPlane.setVisible(false);
                     bullet.setVisible(false);
+                    mediator.handle(canvas, enemyPlane.getX(),enemyPlane.getY());
                     ObserverData data = new ObserverData();
                     data.setNotifyType(NotifyType.INCREMENT_SCORE);
                     data.setScore(100);
@@ -122,6 +125,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
                 }
                 if (plane.collideWith(enemyPlane)) {
                     enemyPlane.setVisible(false);
+                    mediator.handle(canvas, enemyPlane.getX(),enemyPlane.getY());
                     ObserverData data = new ObserverData();
                     data.setNotifyType(NotifyType.PLANE_DESTROTRY);
                     plane.notifyAll(data);
