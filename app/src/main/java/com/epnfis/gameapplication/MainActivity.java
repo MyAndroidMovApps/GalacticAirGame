@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private AlertDialog dialog;
@@ -36,6 +37,24 @@ public class MainActivity extends AppCompatActivity {
 
         //replace dialog content view
         dialog.getWindow().setContentView(planeSelectView);
+
+        //Set click command event
+        btnBluePlane.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Toast.makeText(MainActivity.this, "BluePlane is selected",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        btnRedPlane.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Toast.makeText(MainActivity.this, "RedPlane is selected",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
 
         /*Bitmap bluePlaneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_plane);
                 ImageCache.put("bluePlaneBitmap", bluePlaneBitmap);
