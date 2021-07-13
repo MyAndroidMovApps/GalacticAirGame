@@ -16,6 +16,20 @@ public abstract class Sprite {
         this.x = x;
         this.y = y;
     }
+
+    //if the mouse (x, y) is in area of Sprite
+    public boolean contains(int x, int y) {
+        if((x - this.x < this.width) && (y - this.y < this.height)){
+            return true;
+        }
+        return false;
+    }
+
+    public void move(int distanceX, int distanceY) {
+        this.x += distanceX;
+        this.y += distanceY;
+    }
+
     //draw sprite on canvas
     public void draw(Canvas canvas){
         if(this.isVisiable()){
@@ -51,5 +65,12 @@ public abstract class Sprite {
     }
     public int getHeight(){
         return this.height;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

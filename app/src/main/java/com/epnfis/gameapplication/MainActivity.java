@@ -2,6 +2,8 @@ package com.epnfis.gameapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+
+        Bitmap bluePlaneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_plane);
+                ImageCache.put("bluePlaneBitmap", bluePlaneBitmap);
+
         setContentView(new GameView(this));
 
         //super.onCreate(savedInstanceState);
