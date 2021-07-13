@@ -80,7 +80,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     public void drawGame(Canvas canvas) {
         canvas.drawColor(Color.WHITE); //set white background
         plane.draw(canvas); //draw plane on canvas
-        plane.createBullets();
+        plane.createBullets("1");
         plane.drawBullets(canvas);
         plane.moveBullet(0, -8);
     }

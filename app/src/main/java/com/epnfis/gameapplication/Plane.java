@@ -12,10 +12,10 @@ public class Plane extends Sprite{
     public Plane(Bitmap bitmap, int x, int y) {
         super(bitmap, x, y);
     }
-    public void createBullets(){
+    public void createBullets(String bulletType){
         if(bulletSpeed == 0) {
             if (this.bulletList.size() < 100) {
-                Bullet bullet = new RedBullet(-100, -100);
+                Bullet bullet = BulletFactory.create(bulletType, -100, -100);
                 int x = this.getX() + this.getWidth() / 2 - bullet.getWidth() / 2;
                 int y = this.getY() - bullet.getHeight();
                 bullet.setX(x);
@@ -37,6 +37,10 @@ public class Plane extends Sprite{
             }
         }
     }
+    public void loadBullet(Bullet bullet) {
+        bulletList.add(bullet);
+    }
+
     public void moveBullet(int distanceX, int distanceY) {
         Iterator<Bullet> iter = this.bulletList.iterator();
         while (iter.hasNext()) {
@@ -52,8 +56,5 @@ public class Plane extends Sprite{
                 this.bulletList.remove(bullet);
             }
         }
-    }
-    public void loadBullet(Bullet bullet) {
-        bulletList.add(bullet);
     }
 }

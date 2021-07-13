@@ -28,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
         Bitmap redPlaneBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.red_plane);
         ImageCache.put("redPlaneBitmap", redPlaneBitmap);
 
+        Bitmap redBulletBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.red_bullet);
+        ImageCache.put("redBulletBitmap", redBulletBitmap);
+
+        Bitmap blueBulletBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.blue_bullet);
+        ImageCache.put("blueBulletBitmap", blueBulletBitmap);
+
+        Bitmap missileBulletBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.missile_bullet);
+        ImageCache.put("missileBulletBitmap", missileBulletBitmap);
+
+        //this.setContentView(new GameView(MainActivity.this, "1"));
+
         //AlertDialog
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         //load res->layout->select_plane.xml
