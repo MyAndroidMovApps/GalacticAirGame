@@ -17,14 +17,16 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private SurfaceHolder surfaceHolder;
     //private Bitmap bluePlaneBitmap; // blue_plane.png image bitmap
     private Paint paint;
-    private Sprite bluePlane;
+    private Sprite plane;
     private int canvasWidth, canvasHeight;
     private int downX, downY;//coordinates of the mouse down
     private int moveX, moveY;//coordinates of the mouse move
+    private String planeType;
 
-    public GameView(MainActivity gameActivity) {
+    public GameView(MainActivity gameActivity, String planeType) {
         super(gameActivity);
         this.gameActivity=gameActivity;
+        this.planeType = planeType;
         surfaceHolder=this.getHolder();
         surfaceHolder.addCallback(this);
     }
@@ -37,19 +39,10 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         this.canvasHeight = this.getHeight(); // get height of canvas
         this.surfaceHolder = holder;
         paint = new Paint();
-        /*//draw blue plane on bottom center of canvas
-        bluePlaneBitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.blue_plane);
-        bluePlane = new BluePlane(bluePlaneBitmap, 0, 0);
-        bluePlane.setX(this.canvasWidth/2 - bluePlane.getWidth()/2);
-        bluePlane.setY(this.canvasHeight - bluePlane.getHeight() - 40);
-        new Thread(this).start(); // start game loop thread
-
-         */
-        //draw blue plane on bottom center of canvas
-        bluePlane = new BluePlane(0, 0);
-        bluePlane.setX(this.canvasWidth / 2 - bluePlane.getWidth() / 2);
-        bluePlane.setY(this.canvasHeight - bluePlane.getHeight() - 40);
+        //create plane SpriteFactory
+        plane = SpriteFactory.create(this.planeType, 0, 0);
+        plane.setX(this.canvasWidth / 2 - plane.getWidth() / 2);
+        plane.setY(this.canvasHeight - plane.getHeight() - 40);
         new Thread(this).start(); // start game loop thread
 
     }
@@ -73,9 +66,9 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
             //Calculate the distance moved by the mouse
             int distanceX = moveX - downX;
             int distanceY = moveY - downY;
-            if (bluePlane.contains(downX, downY)) {
+            if (plane.contains(downX, downY)) {
                 //The plane follows the mouse move
-                bluePlane.move(distanceX, distanceY);
+                plane.move(distanceX, distanceY);
             }
             //Save moving coordinates to down coordinates
             downX = moveX;
@@ -89,9 +82,9 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         //float x = 400; //x coordinate
         //float y = 800; //y coordinate
         //canvas.drawBitmap(bluePlaneBitmap, x, y, paint); // draw image on canvas
-        bluePlane.draw(canvas); //draw plane on canvas
+        plane.draw(canvas); //draw plane on canvas
     }
-
+    // game loop to repeat draw
     @Override
     public void run() {
         while(isRun){
@@ -106,7 +99,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
                 e.printStackTrace();
             } finally{
                 if(canvas!=null){
-//unlock canvas submit
+                    //unlock canvas submit
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 }
             }

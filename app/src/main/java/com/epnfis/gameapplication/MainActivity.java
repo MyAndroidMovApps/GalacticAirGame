@@ -22,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 
+        Bitmap bluePlaneBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.blue_plane);
+        ImageCache.put("bluePlaneBitmap", bluePlaneBitmap);
+
+        Bitmap redPlaneBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.red_plane);
+        ImageCache.put("redPlaneBitmap", redPlaneBitmap);
+
         //AlertDialog
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         //load res->layout->select_plane.xml
@@ -30,20 +36,13 @@ public class MainActivity extends AppCompatActivity {
         ImageView btnBluePlane=(ImageView)planeSelectView.findViewById(R.id.bluePlane);
         ImageView btnRedPlane=(ImageView)planeSelectView.findViewById(R.id.redPlane);
 
-        //build a dialog
-        dialog=builder.create();
-//show dialog
-        dialog.show();
-
-        //replace dialog content view
-        dialog.getWindow().setContentView(planeSelectView);
-
         //Set click command event
         btnBluePlane.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
-                Toast.makeText(MainActivity.this, "BluePlane is selected",Toast.LENGTH_SHORT).show();
+                MainActivity.this.setContentView(new GameView(MainActivity.this,"1"));
+                //Toast.makeText(MainActivity.this, "BluePlane is selected",Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -51,17 +50,19 @@ public class MainActivity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                Toast.makeText(MainActivity.this, "RedPlane is selected",Toast.LENGTH_SHORT).show();
+                MainActivity.this.setContentView(new GameView(MainActivity.this,"2"));
+                //Toast.makeText(MainActivity.this, "RedPlane is selected",Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
 
-        /*Bitmap bluePlaneBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_plane);
-                ImageCache.put("bluePlaneBitmap", bluePlaneBitmap);
+        dialog=builder.create();//build a dialog
+        dialog.show();//show dialog
 
-        setContentView(new GameView(this));*/
+        //replace dialog content view
+        dialog.getWindow().setContentView(planeSelectView);
 
-        //super.onCreate(savedInstanceState);
+        //setContentView(new GameView(this));
         //setContentView(R.layout.activity_main);
 
 

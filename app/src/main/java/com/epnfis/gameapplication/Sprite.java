@@ -25,17 +25,20 @@ public abstract class Sprite {
         return false;
     }
 
-    public void move(int distanceX, int distanceY) {
-        this.x += distanceX;
-        this.y += distanceY;
-    }
-
     //draw sprite on canvas
     public void draw(Canvas canvas){
         if(this.isVisiable()){
             canvas.drawBitmap(this.bitmap, this.x, this.y, null);
         }
     }
+    //move sprite on canvas
+    //distanceX: The distance moved in the x-axis
+    //distanceY: The distance moved in the y-axis
+    public void move(int distanceX, int distanceY) {
+        this.x += distanceX;
+        this.y += distanceY;
+    }
+
     public int getX(){
         return x;
     }
