@@ -17,7 +17,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private SurfaceHolder surfaceHolder;
     //private Bitmap bluePlaneBitmap; // blue_plane.png image bitmap
     private Paint paint;
-    private Sprite plane;
+    private Plane plane;
     private int canvasWidth, canvasHeight;
     private int downX, downY;//coordinates of the mouse down
     private int moveX, moveY;//coordinates of the mouse move
@@ -39,8 +39,8 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         this.canvasHeight = this.getHeight(); // get height of canvas
         this.surfaceHolder = holder;
         paint = new Paint();
-        //create plane SpriteFactory
-        plane = SpriteFactory.create(this.planeType, 0, 0);
+        //create plane PlaneFactory
+        plane = PlaneFactory.create(this.planeType, 0, 0);
         plane.setX(this.canvasWidth / 2 - plane.getWidth() / 2);
         plane.setY(this.canvasHeight - plane.getHeight() - 40);
         new Thread(this).start(); // start game loop thread
@@ -79,10 +79,10 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 
     public void drawGame(Canvas canvas) {
         canvas.drawColor(Color.WHITE); //set white background
-        //float x = 400; //x coordinate
-        //float y = 800; //y coordinate
-        //canvas.drawBitmap(bluePlaneBitmap, x, y, paint); // draw image on canvas
         plane.draw(canvas); //draw plane on canvas
+        plane.createBullets();
+        plane.drawBullets(canvas);
+        plane.moveBullet(0, -8);
     }
     // game loop to repeat draw
     @Override

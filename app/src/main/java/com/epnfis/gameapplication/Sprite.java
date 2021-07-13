@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 public abstract class Sprite {
     protected int x,y;//Sprite x, y coordinates
     protected Bitmap bitmap;//Pictures of sprite
-    protected boolean visiable=true;//Is the sprite visible
+    protected boolean visible =true;//Is the sprite visible
     protected int width,height;//Sprite width and height
     public Sprite(Bitmap bitmap, int x, int y) {
         super();
@@ -27,7 +27,7 @@ public abstract class Sprite {
 
     //draw sprite on canvas
     public void draw(Canvas canvas){
-        if(this.isVisiable()){
+        if(this.isVisible()){
             canvas.drawBitmap(this.bitmap, this.x, this.y, null);
         }
     }
@@ -51,11 +51,11 @@ public abstract class Sprite {
     public void setY(int y){
         this.y = y;
     }
-    public boolean isVisiable(){
-        return visiable;
+    public boolean isVisible(){
+        return visible;
     }
-    public void setVisiable(boolean visiable){
-        this.visiable = visiable;
+    public void setVisible(boolean visible){
+        this.visible = visible;
     }
     public void setWidth(int width) {
         this.width = width;
@@ -70,10 +70,10 @@ public abstract class Sprite {
         return this.height;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
+//    public Bitmap getBitmap() {
+//        return bitmap;
+//    }
+//    public void setBitmap(Bitmap bitmap) {
+//        this.bitmap = bitmap;
+//    }
 }
