@@ -18,7 +18,6 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private MainActivity gameActivity;
     private boolean isRun = true; // for game loop
     private SurfaceHolder surfaceHolder;
-    //private Bitmap bluePlaneBitmap; // blue_plane.png image bitmap
     private Paint paint;
     private Plane plane;
     private int canvasWidth, canvasHeight;
@@ -29,6 +28,9 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private PlaneLife planeLife;
     private PlaneScore planeScore;
     private Mediator mediator;
+    private TiledLayer mapLayer;
+    private MapContext mapContext;
+    private int screenY;
 
     public GameView(MainActivity gameActivity, String planeType) {
         super(gameActivity);
@@ -62,6 +64,13 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         plane.registerObserver(planeScore);
         mediator = new MediatorImpl(this.gameActivity);
 
+        mapContext = new MapContext();
+        mapContext.addMap(new MapLayer(this.canvasWidth,this.canvasHeight));
+        mapContext.addMap(new Map2Layer(this.canvasWidth,this.canvasHeight));
+        mapLayer = mapContext.next();//Show MapLayer
+        //mapLayer = mapContext.next();//Show Map2Layer
+        screenY = -this.canvasHeight;
+
         new Thread(this).start(); // start game loop thread
 
     }
@@ -88,6 +97,7 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
             if (plane.contains(downX, downY)) {
                 //The plane follows the mouse move
                 plane.move(distanceX, distanceY);
+                plane.createBullets("1");//If move show alternative bullet
             }
             //Save moving coordinates to down coordinates
             downX = moveX;
@@ -98,14 +108,27 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 
     public void drawGame(Canvas canvas) {
         canvas.drawColor(Color.WHITE); //set white background
+        drawBackGroundMap(canvas);
         plane.draw(canvas); //draw plane on canvas
-        plane.createBullets("2");
+        plane.createBullets("2");//1=blue, 2=red_yellow
         plane.drawBullets(canvas);
         plane.moveBullet(0, -8);
         planeLife.draw(canvas);
         planeScore.draw(canvas, paint);
         enemyPlaneChain.moveEnemyPlanes(canvas);
         collideCheck(canvas);
+    }
+    public void drawBackGroundMap(Canvas canvas)
+    {
+        mapLayer.setViewPort(0, screenY);
+        mapLayer.draw(canvas);
+        if(screenY<=0){
+            screenY++;
+        }
+        if(screenY>=0){
+            screenY = - this.canvasHeight;
+            mapLayer = mapContext.next();
+        }
     }
     private void collideCheck(Canvas canvas) {
         List<Sprite> enemyPlaneList = enemyPlaneChain.getEnemyPlaneList();

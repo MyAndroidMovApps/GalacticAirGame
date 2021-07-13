@@ -47,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bomBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.bom);
         ImageCache.put("bomBitmap", bomBitmap);
 
+        Bitmap map1Bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.map);
+        map1Bitmap=ImageUtils.scaleBitmap(map1Bitmap, 1080, 216);
+        ImageCache.put("map1Bitmap", map1Bitmap);
+        Bitmap map2Bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.map2);
+        map2Bitmap=ImageUtils.scaleBitmap(map2Bitmap, 1080, 216);
+        ImageCache.put("map2Bitmap", map2Bitmap);
+
         //this.setContentView(new GameView(MainActivity.this, "1"));
 
         //AlertDialog
