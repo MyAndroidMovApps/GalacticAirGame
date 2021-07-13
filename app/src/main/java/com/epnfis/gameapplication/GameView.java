@@ -11,6 +11,9 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
     private MainActivity gameActivity;
     private boolean isRun = true; // for game loop
@@ -23,6 +26,8 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private int moveX, moveY;//coordinates of the mouse move
     private String planeType;
     private EnemyPlaneChain enemyPlaneChain;
+    private PlaneLife planeLife;
+    private PlaneScore planeScore;
 
     public GameView(MainActivity gameActivity, String planeType) {
         super(gameActivity);
@@ -48,8 +53,12 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         enemyPlaneChain = new EnemyPlaneChain();
         enemyPlaneChain.add(new Enemy1Handler(this.canvasWidth));
         enemyPlaneChain.add(new Enemy2Handler(this.canvasWidth));
-        enemyPlaneChain.add(new
-                EnemyBossHandler(this.canvasWidth));
+        enemyPlaneChain.add(new EnemyBossHandler(this.canvasWidth));
+
+        planeLife = new PlaneLife(0, 0, canvasWidth, canvasHeight);
+        plane.registerObserver(planeLife);
+        planeScore=new PlaneScore(0,0,canvasWidth,canvasHeight );
+        plane.registerObserver(planeScore);
 
         new Thread(this).start(); // start game loop thread
 
@@ -91,7 +100,36 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
         plane.createBullets("1");
         plane.drawBullets(canvas);
         plane.moveBullet(0, -8);
+        planeLife.draw(canvas);
+        planeScore.draw(canvas, paint);
         enemyPlaneChain.moveEnemyPlanes(canvas);
+        collideCheck();
+    }
+    private void collideCheck() {
+        List<Sprite> enemyPlaneList = enemyPlaneChain.getEnemyPlaneList();
+        CopyOnWriteArrayList<Bullet> bulletList = plane.getBulletList();
+        for (int i = 0; i < enemyPlaneList.size(); i++) {
+            Sprite enemyPlane = enemyPlaneList.get(i);
+            for(int j=0; j<bulletList.size();j++) {
+                Bullet bullet = bulletList.get(j);
+                if (bullet.collideWith(enemyPlane)) {
+                    enemyPlane.setVisible(false);
+                    bullet.setVisible(false);
+                    ObserverData data = new ObserverData();
+                    data.setNotifyType(NotifyType.INCREMENT_SCORE);
+                    data.setScore(100);
+                    plane.notifyAll(data);
+                }
+                if (plane.collideWith(enemyPlane)) {
+                    enemyPlane.setVisible(false);
+                    ObserverData data = new ObserverData();
+                    data.setNotifyType(NotifyType.PLANE_DESTROTRY);
+                    plane.notifyAll(data);
+                    plane.setX(this.canvasWidth / 2 - plane.getWidth() / 2);
+                    plane.setY(this.canvasHeight - plane.getHeight() - 30);
+                }
+            }
+        }
     }
     // game loop to repeat draw
     @Override

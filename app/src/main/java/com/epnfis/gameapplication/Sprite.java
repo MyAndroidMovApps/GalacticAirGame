@@ -39,6 +39,24 @@ public abstract class Sprite {
         this.y += distanceY;
     }
 
+    public boolean collideWith(Sprite sprite){
+        if(this.isVisible() && sprite.isVisible()){
+            int centerX = this.x + this.getWidth()/2;
+            int centerY = this.y + this.getHeight()/2;
+            int spriteCenterX = sprite.getX() + sprite.getWidth()/2;
+            int spriteCenterY = sprite.getY() + sprite.getHeight()/2;
+            if(Math.abs(centerX - spriteCenterX) < (this.width/2 +
+                    sprite.getWidth()/2)
+                    &&
+                    Math.abs(centerY - spriteCenterY) < (this.height/2 +
+                            sprite.getHeight()/2))
+                return true;
+            else
+                return false;
+        }
+        return false;
+    }
+
     public int getX(){
         return x;
     }
@@ -68,5 +86,11 @@ public abstract class Sprite {
     }
     public int getHeight(){
         return this.height;
+    }
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

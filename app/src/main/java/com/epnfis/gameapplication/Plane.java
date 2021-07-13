@@ -3,7 +3,9 @@ package com.epnfis.gameapplication;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Plane extends Sprite{
@@ -12,6 +14,7 @@ public class Plane extends Sprite{
     public Plane(Bitmap bitmap, int x, int y) {
         super(bitmap, x, y);
     }
+    protected List<Observer> observerList=new ArrayList<Observer>();
     public void createBullets(String bulletType){
         if(bulletSpeed == 0) {
             if (this.bulletList.size() < 100) {
@@ -37,9 +40,6 @@ public class Plane extends Sprite{
             }
         }
     }
-    public void loadBullet(Bullet bullet) {
-        bulletList.add(bullet);
-    }
 
     public void moveBullet(int distanceX, int distanceY) {
         Iterator<Bullet> iter = this.bulletList.iterator();
@@ -56,5 +56,20 @@ public class Plane extends Sprite{
                 this.bulletList.remove(bullet);
             }
         }
+    }
+    public void loadBullet(Bullet bullet) {
+        bulletList.add(bullet);
+    }
+    public void registerObserver(Observer observer){
+        observerList.add(observer);
+    }
+    public void notifyAll(ObserverData data){
+        for(int i=0;i<observerList.size();i++){
+            Observer observer=observerList.get(i);
+            observer.update(data);
+        }
+    }
+    public CopyOnWriteArrayList<Bullet> getBulletList() {
+        return bulletList;
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EnemyPlaneChain {
     private LinkedList<ChainHandler> chainList =new
@@ -30,4 +31,8 @@ public class EnemyPlaneChain {
         }
         timeline -- ;
     }
+    public List<Sprite> getEnemyPlaneList() {
+        return enemyPlaneList;
+    }
+
 }
