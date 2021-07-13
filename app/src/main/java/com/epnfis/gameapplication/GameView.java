@@ -16,6 +16,8 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
     private SurfaceHolder surfaceHolder;
     private Bitmap bluePlaneBitmap; // blue_plane.png image bitmap
     private Paint paint;
+    private Sprite bluePlane;
+    private int canvasWidth, canvasHeight;
 
     public GameView(MainActivity gameActivity) {
         super(gameActivity);
@@ -26,11 +28,16 @@ public class GameView extends SurfaceView implements Runnable, SurfaceHolder.Cal
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
-        this.surfaceHolder=holder;
-        paint=new Paint();
-//read bitmap resource res -> drawable -> blue_plane.png
-        bluePlaneBitmap= BitmapFactory.decodeResource(getResources(),
+        this.canvasWidth = this.getWidth(); // get width of canvas
+        this.canvasHeight = this.getHeight(); // get height of canvas
+        this.surfaceHolder = holder;
+        paint = new Paint();
+        //draw blue plane on bottom center of canvas
+        bluePlaneBitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.blue_plane);
+        bluePlane = new BluePlane(bluePlaneBitmap, 0, 0);
+        bluePlane.setX(this.canvasWidth/2 - bluePlane.getWidth()/2);
+        bluePlane.setY(this.canvasHeight - bluePlane.getHeight() - 40);
         new Thread(this).start(); // start game loop thread
     }
     @Override
